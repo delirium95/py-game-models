@@ -9,7 +9,8 @@ def main() -> None:
     with open("players.json", "r", encoding="utf-8") as f:
         players_data = json.load(f)
 
-    for pdata in players_data:
+    # players_data — словник { "john": {...}, "max": {...}, ... }
+    for pdata in players_data.values():  # <--- ось важливо: беремо значення
         # 1️⃣ Race
         race_data = pdata.get("race")
         race, _ = Race.objects.get_or_create(
@@ -37,7 +38,7 @@ def main() -> None:
 
         # 4️⃣ Player
         Player.objects.get_or_create(
-            nickname=pdata["nickname"],
+            nickname=pdata.get("nickname") or "unknown",  # якщо хочеш уникнути проблем
             defaults={
                 "email": pdata.get("email", ""),
                 "bio": pdata.get("bio", ""),
