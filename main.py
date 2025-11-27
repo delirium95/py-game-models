@@ -38,7 +38,8 @@ def main() -> None:
 
         # 4️⃣ Player
         Player.objects.get_or_create(
-            nickname=pdata.get("nickname") or "unknown",  # якщо хочеш уникнути проблем
+            nickname=pdata.get("nickname")
+                     or "unknown",  # якщо хочеш уникнути проблем
             defaults={
                 "email": pdata.get("email", ""),
                 "bio": pdata.get("bio", ""),
