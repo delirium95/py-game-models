@@ -10,7 +10,7 @@ def main() -> None:
         players_data = json.load(f)
 
     # players_data — словник { "john": {...}, "max": {...}, ... }
-    for pdata in players_data.values():  # <--- ось важливо: беремо значення
+    for nickname, pdata in players_data.items():  # беремо і ключ і значення
         # 1️⃣ Race
         race_data = pdata.get("race")
         race, _ = Race.objects.get_or_create(
@@ -26,7 +26,7 @@ def main() -> None:
                 race=race
             )
 
-        # 3️⃣ Guild (опційно)
+        # 3️⃣ Guild
         guild_data = pdata.get("guild")
         if guild_data:
             guild, _ = Guild.objects.get_or_create(
@@ -38,7 +38,7 @@ def main() -> None:
 
         # 4️⃣ Player
         Player.objects.get_or_create(
-            nickname=pdata.get("nickname") or "unknown",
+            nickname=nickname,  # <--- використовуємо ключ словника
             defaults={
                 "email": pdata.get("email", ""),
                 "bio": pdata.get("bio", ""),
